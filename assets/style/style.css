@@ -1,4 +1,20 @@
-
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    /*The box-sizing property is used to tell the browser what the sizing properties (width and height) should include border-box.*/
+    box-sizing: border-box;
+    /*reset Chrome user agent styles*/
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0px;
+    -webkit-padding-after: 0px;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+}
 header{
     background-color: black;
     color:white;
@@ -7,3 +23,54 @@ header{
 h1{
     text-align: center;
 }
+
+ul{
+    list-style: none;
+}
+
+.purple{
+    color:white;
+    background-color: purple;
+}
+.red{
+    color:white;
+    background-color:red;
+}
+.orange{
+    color:black;
+    background-color: orange;
+}
+.yellow{
+    color:black;
+    background-color: yellow;
+}
+.green{
+    color:white;
+    background-color: green;
+}
+#forecast{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+li  div{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start; 
+}
+
+.forecastcard {
+    background-color:blue ;
+    color: cornsilk;
+}
+#searchbox{
+    background-color: rgb(218, 216, 216);
+}
+.visited li{
+    
+    text-align:center;
+    border: 1px solid grey;
+    margin: 1px;
+}
+
