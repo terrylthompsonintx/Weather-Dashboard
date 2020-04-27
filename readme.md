@@ -1,9 +1,10 @@
 #Weather Dashboard
 
 ##User Story
+
 AS A traveler
 I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
+SO THAT I can plan a trip accordingly.
 
 ##Acceptance Criteria
 
@@ -20,4 +21,4 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 
 ##Screen Capture
-![image of screen](https://github.com/terrylthompsonintx/jsQuiz/blob/master/assets/images/screenlayout.png "Screen cap of app")
+![image of screen](https://terrylthompsonintx.github.io/Weather-Dashboard/assets/images/screencap.png "Screen cap of app")

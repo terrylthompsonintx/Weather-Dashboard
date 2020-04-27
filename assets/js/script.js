@@ -1,4 +1,4 @@
-//console.log('script present');
+//Global Variables begin
 var historyList = document.querySelector('#history');
 var searchbtnpress = document.querySelector('#searchbtn');
 var heroDiv = document.querySelector('#hero');
@@ -18,7 +18,11 @@ var iconUrl = function(code){
     var urlstring = 'https://openweathermap.org/img/wn/' + icode;
     return(urlstring);
 }
+//Global Variables End
 
+//Fucntions Begin
+
+//returns the date from unixtime stamp
 var convertUnixToDate = function(utime){
     var unix_timestamp = utime;
     var date = new Date(unix_timestamp * 1000);
@@ -26,6 +30,7 @@ var convertUnixToDate = function(utime){
     return(toldate);
 }
 
+//takes city input and makes it proper case
 var scrubCity =function(){
     var dirtycity = city.toLowerCase().trim();
     //console.log(dirtycity);
@@ -35,39 +40,41 @@ var scrubCity =function(){
     
 }
 
+//clears all display divs
 var clearDiv =function(targetDiv){
     targetDiv.innerHTML='';
     //clears the div passed to it.
 }
 
+//task json object from API and generates html
 var displayResults =function(json){
     clearDiv(heroDiv);
     clearDiv(forecastDiv)
   
     
     var iconsrc1 =iconUrl(json.current.weather[0].icon); 
-   var divlabel =document.createElement('h2');
-   var h2text = displayCity +' ' + convertUnixToDate(json.current.dt);
-   divlabel.textContent = h2text;
-   var iconimg1=document.createElement('img');
-   iconimg1.setAttribute('src', iconsrc1);
+    var divlabel =document.createElement('h2');
+    var h2text = displayCity +' ' + convertUnixToDate(json.current.dt);
+    divlabel.textContent = h2text;
+    var iconimg1=document.createElement('img');
+    iconimg1.setAttribute('src', iconsrc1);
     iconimg1.setAttribute('height', '100');
     iconimg1.setAttribute('width', '100');
     divlabel.appendChild(iconimg1);
-   heroDiv.appendChild(divlabel);
-   var divUl = document.createElement('ul');
-   divUl.className='hero';
-   divUl.setAttribute('id', 'heroUl');
-   heroDiv.appendChild(divUl);
-   var firstli= document.createElement('li');
-   firstli.textContent='Temperature ' + json.current.temp + ' F';
-   divUl.appendChild(firstli);
-   var secondli= document.createElement('li');
-   secondli.textContent='Humidity ' + json.current.humidity + ' %';
-   divUl.appendChild(secondli);
-   var thirdli= document.createElement('li');
-   thirdli.textContent='Wind speed  ' + json.current.wind_speed + ' MPH';
-   divUl.appendChild(thirdli);
+    heroDiv.appendChild(divlabel);
+    var divUl = document.createElement('ul');
+    divUl.className='hero';
+    divUl.setAttribute('id', 'heroUl');
+    heroDiv.appendChild(divUl);
+    var firstli= document.createElement('li');
+    firstli.textContent='Temperature ' + json.current.temp + ' F';
+    divUl.appendChild(firstli);
+    var secondli= document.createElement('li');
+    secondli.textContent='Humidity ' + json.current.humidity + ' %';
+    divUl.appendChild(secondli);
+    var thirdli= document.createElement('li');
+    thirdli.textContent='Wind speed  ' + json.current.wind_speed + ' MPH';
+    divUl.appendChild(thirdli);
    
    var fourthli= document.createElement('li');
 
@@ -100,9 +107,7 @@ var displayResults =function(json){
    uvdisplay.classList.add('col-1');
    fourthli.appendChild(uvdisplay);
    divUl.appendChild(fourthli);
-   /*var forcastHead = document.createElement('h2');
-   forcastHead.innerText='5-Day Forecast';
-   forecastDiv.appendChild(forcastHead); */
+   
    for(var i=0;i<5;i++){
        var newcard= document.createElement('div');
        newcard.setAttribute('class', 'card forecastcard col-2')
@@ -131,13 +136,9 @@ var displayResults =function(json){
        newcard.appendChild(cardhum);
        
        forecastDiv.appendChild(newcard);
-
    }
-
-console.log(json);
-    
+//console.log(json);
 }
-
 
     //loads search history from local storage and diplays in page 
 var loadHistory=function(){
@@ -146,18 +147,59 @@ var loadHistory=function(){
     if (searchHistoryList == null){
         searchHistoryList =[];
     }
-        for(i=0;i<searchHistoryList.length;i++){
-            var newLi = document.createElement('li');
-            newLi.innerText=searchHistoryList[i];
-            newLi.setAttribute('data',searchHistoryList[i])
-            newLi.classList.add('oldcity');
-            //console.log(newLi);
-            historyList.appendChild(newLi);
-            
-        }
+    for(i=0;i<searchHistoryList.length;i++){
+        var newLi = document.createElement('li');
+        newLi.innerText=searchHistoryList[i];
+        newLi.setAttribute('data',searchHistoryList[i])
+        newLi.classList.add('oldcity');
+        //console.log(newLi);
+        historyList.appendChild(newLi);
+          
+    }
       
 }    
 
+// goes to api and requests weather
+var fetchWeather = function(){
+    var newEnd ="https://api.openweathermap.org/data/2.5/onecall?"
+
+    var endpointurl = "http://api.openweathermap.org/data/2.5/forecast?q=" +city+"&appid="+apiKey+"&units="+units;
+    //console.log();
+    fetch(endpointurl)//api endpoint
+    .then(function(responce){
+        return responce.json();//once responce is recieved send it .json() method and pass to next
+    })
+    .then(function(myJson){
+        
+        cityLat = myJson.city.coord.lat;
+        
+        cityLon = myJson.city.coord.lon;
+        displayCity =myJson.city.name;
+        //console.log(myJson);
+        
+    })
+    .then(function(){
+        //console.log (cityLat,cityLon);
+        var secondendp = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat +"&lon=" +cityLon +"&appid="+apiKey+"&units="+units;
+        fetch(secondendp)
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(res){
+            displayResults(res);
+        })
+        .catch (function(error){
+            console.log(error) //or someother error handling
+           })
+        
+    })
+    .catch (function(error){
+     console.log(error) //or someother error handling
+    })
+}
+// End of fucntions
+
+//event handlers begin
 var searchbtn= function(){
     city = document.getElementById('searchbox').value;
     scrubCity();
@@ -187,12 +229,7 @@ var searchbtn= function(){
             historyList.appendChild(newLi);
             fetchWeather(city);
         }
-
     }
-
-    
-    
-
 }
 
 var historybtn= function(){
@@ -205,57 +242,12 @@ var historybtn= function(){
     }
     
 }
-var fetchWeather = function(){
-    var newEnd ="https://api.openweathermap.org/data/2.5/onecall?"
+//event  handlers end
 
-    var endpointurl = "http://api.openweathermap.org/data/2.5/forecast?q=" +city+"&appid="+apiKey+"&units="+units;
-    //console.log();
-    fetch(endpointurl)//api endpoint
-    .then(function(responce){
-        return responce.json();//once responce is recieved send it .json() method and pass to next
-    })
-    .then(function(myJson){
-        
-        cityLat = myJson.city.coord.lat;
-        
-        cityLon = myJson.city.coord.lon;
-        displayCity =myJson.city.name;
-        //console.log(myJson);
-        
-    })
-    .then(function(){
-        console.log (cityLat,cityLon);
-        var secondendp = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat +"&lon=" +cityLon +"&appid="+apiKey+"&units="+units;
-        fetch(secondendp)
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(res){
-            displayResults(res);
-        })
-        .catch (function(error){
-            console.log(error) //or someother error handling
-           })
-        
-    })
-    .catch (function(error){
-     console.log(error) //or someother error handling
-    })
-    
-    
-    //var secondendp = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat +"&lon=" +cityLon +"&appid="+apiKey+"&units="+units;
-    //console.log (secondendp);
-    /*fetch(secondendp)
-    .then(function(responce) {
-        return responce.json()
-    })
-    .then(function(myJson){
-        displayResults(myJson);
-    }) */
-}
+loadHistory();
 
-
+//event listeners
 historyList.addEventListener('click',historybtn);
 searchbtnpress.addEventListener('click',searchbtn);
 
-loadHistory();
+
