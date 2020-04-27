@@ -163,7 +163,7 @@ var loadHistory=function(){
 var fetchWeather = function(){
     var newEnd ="https://api.openweathermap.org/data/2.5/onecall?"
 
-    var endpointurl = "http://api.openweathermap.org/data/2.5/forecast?q=" +city+"&appid="+apiKey+"&units="+units;
+    var endpointurl = "https://api.openweathermap.org/data/2.5/forecast?q=" +city+"&appid="+apiKey+"&units="+units;
     //console.log();
     fetch(endpointurl)//api endpoint
     .then(function(responce){
