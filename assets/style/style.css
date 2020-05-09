@@ -14,10 +14,14 @@
     -webkit-padding-after: 0px;
     -webkit-padding-start: 0px;
     -webkit-padding-end: 0px;
+    
 }
+
 body{
-    background-image: url ("./assets/images/background.jpg");
+    
+    background-color: lavender;
 }
+
 header{
     background-color: black;
     color:white;
@@ -70,12 +74,15 @@ li  div{
     color: cornsilk;
 }
 #searchbox{
-    background-color: rgb(218, 216, 216);
+    background-color: grey);
 }
 .visited li{
     
     text-align:center;
     border: 1px solid grey;
     margin: 1px;
+}
+#citysearch {
+    background: lavender;
 }
 

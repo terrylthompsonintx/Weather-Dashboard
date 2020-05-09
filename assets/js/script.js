@@ -26,7 +26,9 @@ var iconUrl = function(code){
 var convertUnixToDate = function(utime){
     var unix_timestamp = utime;
     var date = new Date(unix_timestamp * 1000);
-    var toldate = date.getMonth() +'/'+ date.getDate() +'/' + date.getFullYear();
+    realmonth = date.getMonth();
+    realmonth ++;
+    var toldate = realmonth +'/'+ date.getDate() +'/' + date.getFullYear();
     return(toldate);
 }
 
@@ -108,7 +110,7 @@ var displayResults =function(json){
    fourthli.appendChild(uvdisplay);
    divUl.appendChild(fourthli);
    
-   for(var i=0;i<5;i++){
+   for(var i=1;i<6;i++){
        var newcard= document.createElement('div');
        newcard.setAttribute('class', 'card forecastcard col-2')
        var carddate = convertUnixToDate(json.daily[i].dt);
