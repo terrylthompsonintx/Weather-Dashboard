@@ -15,6 +15,9 @@
     -webkit-padding-start: 0px;
     -webkit-padding-end: 0px;
 }
+body{
+    background-image: url ("./assets/images/background.jpg");
+}
 header{
     background-color: black;
     color:white;
@@ -52,12 +55,14 @@ ul{
     display:flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 li  div{
     display:flex;
     flex-direction: row;
     justify-content: flex-start; 
+    flex-wrap: wrap;
 }
 
 .forecastcard {
